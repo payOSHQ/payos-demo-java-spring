@@ -1,0 +1,15 @@
+
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+#Hbernate properties
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.hibernate.ddl-auto=validate
+
+
+PAYOS_CREATE_PAYMENT_LINK_URL=https://api-merchant.payos.vn/v2/payment-requests
+
+PAYOS_CLIENT_ID=
+PAYOS_API_KEY=
+PAYOS_CHECKSUM_KEY=
