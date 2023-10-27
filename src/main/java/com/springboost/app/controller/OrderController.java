@@ -90,7 +90,7 @@ public class OrderController {
 
             String responseBody = response.block();
             JsonNode res = objectMapper.readTree(responseBody);
-            System.out.println(res);
+//            System.out.println(res);
             if (!Objects.equals(res.get("code").asText(), "00")) {
                 throw new Exception("Fail");
             }
