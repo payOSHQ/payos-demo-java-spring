@@ -64,7 +64,7 @@ public class OrderController {
             int orderCode =
                     Integer.parseInt(currentTimeString.substring(currentTimeString.length() - 6));
             ObjectNode item = objectMapper.createObjectNode();
-            item.put("productName", productName);
+            item.put("name", productName);
             item.put("quantity", 1);
             item.put("price", price);
 
@@ -90,7 +90,7 @@ public class OrderController {
 
             String responseBody = response.block();
             JsonNode res = objectMapper.readTree(responseBody);
-//            System.out.println(res);
+            System.out.println(res);
             if (!Objects.equals(res.get("code").asText(), "00")) {
                 throw new Exception("Fail");
             }

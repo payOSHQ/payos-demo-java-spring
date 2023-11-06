@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demo</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <form
+      action="/checkout"
+      method="POST"
+      class="flex flex-col gap-1 justify-center items-center pt-40"
+    >
+      <p class="text-gray-500 w-52 pt-4">Tên sản phẩm:</p>
+      <input
+        type="text"
+        name="productName"
+        value="Mì tôm Hảo Hảo"
+        class="border border-gray-400 p-2 pl-2 rounded w-52"
+      />
+      <p class="text-gray-500 w-52 pt-4">Giá tiền:</p>
+      <input
+        type="text"
+        name="price"
+        value="1000"
+        class="border border-gray-400 p-2 pl-2 rounded w-52"
+      />
+      <p class="text-gray-500 w-52 pt-4">Số lượng:</p>
+      <input
+        type="text"
+        name="quantity"
+        value="1"
+        class="border border-gray-400 p-2 pl-2 rounded w-52"
+      />
+      <p class="text-gray-500 w-52 pt-4">Mô tả đơn hàng:</p>
+      <input
+        type="text"
+        name="description"
+        value="Thanh toan don hang"
+        class="border border-gray-400 p-2 pl-2 rounded w-52"
+      />
+      <input
+        type="text"
+        name="returnUrl"
+        value="http://localhost:8080/result"
+        class="border border-gray-400 p-1 pl-2 rounded"
+        hidden
+      />
+      <input
+        type="text"
+        name="cancelUrl"
+        value="http://localhost:8080/result"
+        hidden
+        class="border border-gray-400 p-1 pl-2 rounded"
+      />
+      <button
+        type="submit"
+        id="checkout-button"
+        class="bg-indigo-500 p-2 rounded border-gray-400 border hover:outline hover:bg-indigo-700 w-40 hover:outline-purple-300 text outline-1 m-5"
+      >
+        <p class="text-white font-semibold">Checkout</p>
+      </button>
+    </form>
+  </body>
+</html>

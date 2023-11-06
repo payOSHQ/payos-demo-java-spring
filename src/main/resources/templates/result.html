@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lấy và hiển thị Query String</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="px-4 py-8 sm:px-8 flex-col flex items-center gap-10">
+      <p class="text-center font-bold text-xl">Thông tin chuỗi query string</p>
+      <table
+        class="border-collapse w-1/3 border border-slate-400 bg-white text-sm shadow-sm"
+      >
+        <thead class="bg-slate-50">
+          <tr>
+            <th
+              class="w-1/3 border border-slate-300 font-semibold p-4 text-slate-900 text-left"
+            >
+              Tên biến
+            </th>
+            <th
+              class="w-1/3 border border-slate-300 font-semibold p-4 text-slate-900 text-left"
+            >
+              Giá trị
+            </th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+      <button type="button" onclick="backToDemo()" class="text-lg decoration-solid underline">Trở về trang Demo</button>
+    </div>
+    <script>
+      // Sử dụng window.location.search để lấy query string
+      var queryString = window.location.search;
+
+      // Hiển thị query string trong thẻ text
+      var params = new URLSearchParams(queryString);
+      var obj = {};
+
+      params.forEach(function (value, key) {
+        obj[key] = value;
+      });
+      var tableBody = document.getElementById("table-body");
+      Object.entries(obj).forEach(function ([key, value]) {
+        var row = document.createElement("tr");
+
+        // Tạo các ô (cell) và thêm nội dung vào từng ô
+        var keyCell = document.createElement("td");
+        keyCell.textContent = key;
+        keyCell.classList.add(
+          "border",
+          "border-slate-300",
+          "p-4",
+          "text-slate-500"
+        );
+        row.appendChild(keyCell);
+
+        var valueCell = document.createElement("td");
+        valueCell.textContent = value;
+        valueCell.classList.add(
+          "border",
+          "border-slate-300",
+          "p-4",
+          "text-slate-500"
+        );
+        row.appendChild(valueCell);
+
+        tableBody.appendChild(row);
+      });
+      function backToDemo() {
+        window.location.href = "http://localhost:8080/"
+      }
+    </script>
+  </body>
+</html>
+
