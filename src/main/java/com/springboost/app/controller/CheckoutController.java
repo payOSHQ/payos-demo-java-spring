@@ -4,13 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.springboost.app.type.Body;
-import com.springboost.app.type.Payment;
 import com.springboost.app.utils.Utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,11 +17,10 @@ import reactor.core.publisher.Mono;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Controller
-public class TemplateController {
+public class CheckoutController {
     @Value("${PAYOS_CREATE_PAYMENT_LINK_URL}")
     private String createPaymentLinkUrl;
 
@@ -37,23 +34,26 @@ public class TemplateController {
     private String checksumKey;
 
     @RequestMapping(value = "/")
-    public String Demo() {
-        return "demo";
+    public String Index() {
+        return "index";
     }
-    @RequestMapping(value = "/result")
-    public String Result() {
-        return "result";
+    @RequestMapping(value = "/success")
+    public String Success() {
+        return "success";
     }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/checkout", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void checkout(Payment payment, HttpServletResponse httpServletResponse) {
+    @RequestMapping(value = "/cancel")
+    public String Cancel() {
+        return "cancel";
+    }
+    @RequestMapping(method = RequestMethod.POST, value = "/create-payment-link", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void checkout(HttpServletResponse httpServletResponse) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            final String productName = payment.getProductName().toString();
-            final String description = payment.getDescription().toString();
-            final String returnUrl = payment.getReturnUrl().toString();
-            final String cancelUrl = payment.getCancelUrl().toString();
-            final int price = payment.getPrice();
+            final String productName = "Mì tôm hảo hảo ly";
+            final String description = "Thanh toan don hang";
+            final String returnUrl = "http://localhost:8080/success";
+            final String cancelUrl = "http://localhost:8080/cancel";
+            final int price = 1000;
             // Gen order code
             String currentTimeString = String.valueOf(new Date().getTime());
             int orderCode = Integer.parseInt(currentTimeString.substring(currentTimeString.length() - 6));
