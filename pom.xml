@@ -12,11 +12,11 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
-  <groupId>com.springboost.app</groupId>
+  <groupId>com.springboot.app</groupId>
   <artifactId>payos</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>springboost-backend-payos</name>
-  <description>Springboost resful web service</description>
+  <name>springboot-backend-payos</name>
+  <description>Springboot resful web service</description>
 
   <properties>
     <java.version>17</java.version>
@@ -36,11 +36,6 @@
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>com.mysql</groupId>
-      <artifactId>mysql-connector-j</artifactId>
-      <scope>runtime</scope>
-    </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

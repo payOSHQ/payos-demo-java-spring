@@ -1,6 +1,4 @@
 #Hbernate properties
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
-spring.jpa.hibernate.ddl-auto=validate
 
 PAYOS_CLIENT_ID=
 PAYOS_API_KEY=
