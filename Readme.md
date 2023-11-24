@@ -3,10 +3,6 @@ Link: [Java 16](https://www.oracle.com/java/technologies/javase/jdk16-archive-do
 
 #### Step 2: Add payment gateway
 - Go to file src/resources/application.properties
-- Add host database
-   - spring.datasource.url= jdbc:mysql://{Your Host}/{Your Database}?useSSl=false
-   - spring.datasource.username={Your username}
-   - spring.datasource.password={Your password}
 - Add values to PayOS payment gateway variables
    - PAYOS_CLIENT_ID={Your Client Id}
    - PAYOS_API_KEY={Your Api Key}

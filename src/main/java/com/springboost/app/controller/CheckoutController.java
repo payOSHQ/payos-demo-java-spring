@@ -2,37 +2,24 @@ package com.springboost.app.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.springboost.app.type.Body;
-import com.springboost.app.utils.Utils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
+import com.lib.payos.PayOS;
+import com.lib.payos.type.ItemData;
+import com.lib.payos.type.PaymentData;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
-
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class CheckoutController {
-    @Value("${PAYOS_CREATE_PAYMENT_LINK_URL}")
-    private String createPaymentLinkUrl;
-
-    @Value("${PAYOS_CLIENT_ID}")
-    private String clientId;
-
-    @Value("${PAYOS_API_KEY}")
-    private String apiKey;
-
-    @Value("${PAYOS_CHECKSUM_KEY}")
-    private String checksumKey;
-
+  private final PayOS payOS;
+  public CheckoutController(PayOS payOS) {
+    super();
+    this.payOS = payOS;
+  }
     @RequestMapping(value = "/")
     public String Index() {
         return "index";
@@ -57,42 +44,15 @@ public class CheckoutController {
             // Gen order code
             String currentTimeString = String.valueOf(new Date().getTime());
             int orderCode = Integer.parseInt(currentTimeString.substring(currentTimeString.length() - 6));
-            ObjectNode item = objectMapper.createObjectNode();
-            item.put("name", productName);
-            item.put("quantity", 1);
-            item.put("price", price);
+            ItemData item = new ItemData(productName, 1, price);
+            List<ItemData> itemList = new ArrayList<>();
+            itemList.add(item);
+            PaymentData paymentData = new PaymentData(orderCode, price, description,
+              itemList, cancelUrl, returnUrl);
+            JsonNode data = payOS.createPaymentLink(paymentData);
 
-            List<ObjectNode> items = List.of(item);
-            Body body = new Body(orderCode, price, description, items, cancelUrl, returnUrl);
-            String bodyToSignature = Utils.createSignatureOfPaymentRequest(body, checksumKey);
-            body.setSignature(bodyToSignature);
-            // Tạo header
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("x-client-id", clientId);
-            headers.set("x-api-key", apiKey);
-            // Gửi yêu cầu POST
-            WebClient client = WebClient.create();
-            Mono<String> response = client.post()
-                    .uri(createPaymentLinkUrl)
-                    .headers(httpHeaders -> httpHeaders.putAll(headers))
-                    .body(BodyInserters.fromValue(body))
-                    .retrieve()
-                    .bodyToMono(String.class);
+            String checkoutUrl = data.get("checkoutUrl").asText();
 
-            String responseBody = response.block();
-            JsonNode res = objectMapper.readTree(responseBody);
-            if (!Objects.equals(res.get("code").asText(), "00")) {
-                throw new Exception("Fail");
-            }
-            String checkoutUrl = res.get("data").get("checkoutUrl").asText();
-
-            // Kiểm tra dữ liệu có đúng không
-            String paymentLinkResSignature = Utils.createSignatureFromObj(res.get("data"), checksumKey);
-            System.out.println(paymentLinkResSignature);
-            if (!paymentLinkResSignature.equals(res.get("signature").asText())) {
-                throw new Exception("Signature is not compatible");
-            }
             httpServletResponse.setHeader("Location", checkoutUrl);
             httpServletResponse.setStatus(302);
         } catch (Exception e) {
