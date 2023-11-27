@@ -7,15 +7,7 @@ Link: [Java 16](https://www.oracle.com/java/technologies/javase/jdk16-archive-do
    - PAYOS_CLIENT_ID={Your Client Id}
    - PAYOS_API_KEY={Your Api Key}
    - PAYOS_CHECKSUM_KEY={Your Checksum Key}
-#### Step 3: Load library:
-- **IntelliJ IDEA**:
-- Click File
-- Click Project Structure
-- Click "Modules" in the section "Project Settings"
-- In "Dependencies", click Symbol "+" and then click "Jar or Directory File"
-- Add file payos.jar
-- Click Apply and Close
-#### Step 4: Run the project
+#### Step 3 Run the project
 - **Vs code**:
    - Need to install extensions Extension Pack for Java and Debugger for Java.
    - Points to file src/main/java/com/springboost/app/SpringboostBackendPayosApplication.java
