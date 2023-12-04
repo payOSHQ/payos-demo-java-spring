@@ -33,8 +33,7 @@ public class PaymentController {
       respon.put("message", "Ok");
       respon.set("data", null);
 
-      payOS.verifyPaymentWebhookData(body);
-      JsonNode data = body.get("data");
+      JsonNode data = payOS.verifyPaymentWebhookData(body);
       if (Objects.equals(data.get("signature").asText(), "Ma giao dich thu nghiem")){
         return respon;
       }

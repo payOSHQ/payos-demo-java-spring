@@ -49,20 +49,15 @@ public class OrderController {
             List<ItemData> itemList = new ArrayList<ItemData>();
             itemList.add(item);
 
-            //String jsonString = objectMapper.writeValueAsString(itemList);
             PaymentData paymentData = new PaymentData(orderCode, price, description,
                                                     itemList, cancelUrl, returnUrl);
-            paymentData.setExpiredAt(1);
 
             JsonNode data = payOS.createPaymentLink(paymentData);
-
-            String checkoutUrl = data.get("checkoutUrl").asText();
-
 
             ObjectNode respon = objectMapper.createObjectNode();
             respon.put("error", 0);
             respon.put("message", "success");
-            respon.set("data", objectMapper.createObjectNode().put("checkoutUrl", checkoutUrl));
+            respon.set("data", data);
             return respon;
 
         } catch (Exception e) {
