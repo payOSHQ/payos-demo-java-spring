@@ -11,12 +11,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -122,11 +124,11 @@ public class OrderController {
         }
     }
     @PostMapping(path = "/confirm-webhook")
-    public ObjectNode confirmWebhook(@RequestBody ConfirmWebhookRequestBody RequestBody) {
+    public ObjectNode confirmWebhook(@RequestBody Map<String, String> requestBody) {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode respon = objectMapper.createObjectNode();
         try {
-            payOS.confirmWebhook(RequestBody.getWebhookUrl());
+            String str = payOS.confirmWebhook(requestBody.get("webhookUrl"));
             respon.set("data", null);
             respon.put("error", 0);
             respon.put("message", "ok");

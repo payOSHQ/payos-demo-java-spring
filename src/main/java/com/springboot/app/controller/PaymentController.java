@@ -21,7 +21,7 @@ public class PaymentController {
 
   }
 
-  @PostMapping(path = "/payos")
+  @PostMapping(path = "/payos_transfer_handler")
   public ObjectNode payosTransferHandler(@RequestBody ObjectNode body) {
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -34,7 +34,8 @@ public class PaymentController {
       respon.set("data", null);
 
       JsonNode data = payOS.verifyPaymentWebhookData(body);
-      if (Objects.equals(data.get("signature").asText(), "Ma giao dich thu nghiem")){
+      System.out.println(data);
+      if (Objects.equals(data.get("description").asText(), "Ma giao dich thu nghiem")){
         return respon;
       }
       return respon;
