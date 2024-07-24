@@ -1,14 +1,18 @@
 package com.springboot.app;
-import com.lib.payos.PayOS;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+
+import vn.payos.PayOS;
+
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 @Configuration
 public class SpringbootBackendPayosApplication implements WebMvcConfigurer {
 
@@ -20,8 +24,9 @@ public class SpringbootBackendPayosApplication implements WebMvcConfigurer {
 
 	@Value("${PAYOS_CHECKSUM_KEY}")
 	private String checksumKey;
+
 	@Override
-	public void addCorsMappings(CorsRegistry registry) {
+	public void addCorsMappings(@NonNull CorsRegistry registry) {
 		registry.addMapping("/**")
 				.allowedOrigins("*")
 				.allowedMethods("*")
@@ -30,10 +35,12 @@ public class SpringbootBackendPayosApplication implements WebMvcConfigurer {
 				.allowCredentials(false)
 				.maxAge(3600); // Max age of the CORS pre-flight request
 	}
+
 	@Bean
 	public PayOS payOS() {
 		return new PayOS(clientId, apiKey, checksumKey);
 	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootBackendPayosApplication.class, args);
 	}

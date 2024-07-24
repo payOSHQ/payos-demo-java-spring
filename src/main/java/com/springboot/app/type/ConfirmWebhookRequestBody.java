@@ -1,5 +1,5 @@
 package com.springboot.app.type;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.Setter;
 
