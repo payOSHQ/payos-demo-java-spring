@@ -1,5 +1,12 @@
-#Hibernate properties
+# Core PayOS credentials
+payos.client-id=
+payos.api-key=
+payos.checksum-key=
 
-PAYOS_CLIENT_ID=
-PAYOS_API_KEY=
-PAYOS_CHECKSUM_KEY=
+# Optional: Payout credentials (leave empty if not using payouts)
+payos.payout-client-id=
+payos.payout-api-key=
+payos.payout-checksum-key=
+
+# Logging level: DEBUG | INFO | NONE
+payos.log-level=NONE

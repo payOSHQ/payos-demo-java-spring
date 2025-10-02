@@ -9,39 +9,71 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import vn.payos.PayOS;
+import vn.payos.core.ClientOptions;
 
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @Configuration
 public class SpringbootBackendPayosApplication implements WebMvcConfigurer {
 
-	@Value("${PAYOS_CLIENT_ID}")
-	private String clientId;
+  @Value("${payos.client-id}")
+  private String clientId;
 
-	@Value("${PAYOS_API_KEY}")
-	private String apiKey;
+  @Value("${payos.api-key}")
+  private String apiKey;
 
-	@Value("${PAYOS_CHECKSUM_KEY}")
-	private String checksumKey;
+  @Value("${payos.checksum-key}")
+  private String checksumKey;
 
-	@Override
-	public void addCorsMappings(@NonNull CorsRegistry registry) {
-		registry.addMapping("/**")
-				.allowedOrigins("*")
-				.allowedMethods("*")
-				.allowedHeaders("*")
-				.exposedHeaders("*")
-				.allowCredentials(false)
-				.maxAge(3600); // Max age of the CORS pre-flight request
-	}
+  @Value("${payos.payout-client-id}")
+  private String payoutClientId;
 
-	@Bean
-	public PayOS payOS() {
-		return new PayOS(clientId, apiKey, checksumKey);
-	}
+  @Value("${payos.payout-api-key}")
+  private String payoutApiKey;
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringbootBackendPayosApplication.class, args);
-	}
+  @Value("${payos.payout-checksum-key}")
+  private String payoutChecksumKey;
+
+  @Value("${payos.log-level}")
+  private String logLevel;
+
+  @Override
+  public void addCorsMappings(@NonNull CorsRegistry registry) {
+    registry
+        .addMapping("/**")
+        .allowedOrigins("*")
+        .allowedMethods("*")
+        .allowedHeaders("*")
+        .exposedHeaders("*")
+        .allowCredentials(false)
+        .maxAge(3600); // Max age of the CORS pre-flight request
+  }
+
+  @Bean
+  public PayOS payOS() {
+    ClientOptions options =
+        ClientOptions.builder()
+            .clientId(clientId)
+            .apiKey(apiKey)
+            .checksumKey(checksumKey)
+            .logLevel(ClientOptions.LogLevel.valueOf(logLevel.toUpperCase()))
+            .build();
+    return new PayOS(options);
+  }
+
+  @Bean
+  public PayOS payOSPayout() {
+    ClientOptions options =
+        ClientOptions.builder()
+            .clientId(payoutClientId)
+            .apiKey(payoutApiKey)
+            .checksumKey(payoutChecksumKey)
+            .logLevel(ClientOptions.LogLevel.valueOf(logLevel.toUpperCase()))
+            .build();
+    return new PayOS(options);
+  }
+
+  public static void main(String[] args) {
+    SpringApplication.run(SpringbootBackendPayosApplication.class, args);
+  }
 }
