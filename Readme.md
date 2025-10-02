@@ -22,7 +22,8 @@ cp ./src/main/resources/application.properties.example ./src/main/resources/appl
 - Run the project using the command `mvn spring-boot:run`
 - The project will run on port 8080
 
-> [!NOTE] > **Webhook Setup (Optional)**: For testing webhook functionality in development, you need to expose your local server using a tool like [ngrok](https://ngrok.com/). The webhook endpoint is `/payment/payos_transfer_handler` (handled by `PaymentController.java`). After exposing your server with ngrok, register the full webhook URL (e.g., `https://abc123.ngrok.io/payment/payos_transfer_handler`) in your payOS dashboard at [my.payos.vn](https://my.payos.vn) or using `/order/confirm-webhook` with your webhook URL.
+> [!NOTE]
+> **Webhook Setup (Optional)**: For testing webhook functionality in development, you need to expose your local server using a tool like [ngrok](https://ngrok.com/). The webhook endpoint is `/payment/payos_transfer_handler` (handled by `PaymentController.java`). After exposing your server with ngrok, register the full webhook URL (e.g., `https://abc123.ngrok.io/payment/payos_transfer_handler`) in your payOS dashboard at [my.payos.vn](https://my.payos.vn) or using `/order/confirm-webhook` with your webhook URL.
 
 ## Structure
 
