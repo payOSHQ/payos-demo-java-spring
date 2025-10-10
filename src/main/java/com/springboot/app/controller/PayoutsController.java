@@ -1,8 +1,6 @@
 package com.springboot.app.controller;
 
 import com.springboot.app.type.ApiResponse;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -105,14 +103,10 @@ public class PayoutsController {
               .limit(limit)
               .offset(offset);
       if (fromDate != null && !fromDate.isEmpty()) {
-        OffsetDateTime fixedFromDate =
-            OffsetDateTime.parse(fromDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        paramsBuilder.fromDate(fixedFromDate);
+        paramsBuilder.fromDate(fromDate);
       }
       if (toDate != null && !toDate.isEmpty()) {
-        OffsetDateTime fixedToDate =
-            OffsetDateTime.parse(toDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        paramsBuilder.toDate(fixedToDate);
+        paramsBuilder.toDate(toDate);
       }
 
       PayoutApprovalState parsedApprovalState = null;
